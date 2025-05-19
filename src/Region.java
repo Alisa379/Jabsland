@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Region implements PlayActions {
     private String name;
@@ -58,6 +59,14 @@ public class Region implements PlayActions {
 
     public boolean getStatus() {
         return this.status;
+    }
+
+    public Artifact getArtifact() {
+        return this.artifact;
+    }
+
+    public SecretKnowledge getSecretKnowledge() {
+        return this.secretKnowledge;
     }
 
     public String getPopulationInfo() {
@@ -165,28 +174,102 @@ public class Region implements PlayActions {
         }
     }
 
-    public void levelUp(String jabCast, int desiredLevel) {
+    public void levelUp(String jabCast, int desiredLevel, Player player) {
+        player.setCoinsAmount(player.getCoinsAmount() - this.countLevelUpCost(jabCast, desiredLevel));
         switch(jabCast) {
             case ("admins"):
-
+                this.jabs.setAdminsLevel(desiredLevel);
                 break;
             case ("civilians"):
-
+                this.jabs.setCiviliansLevel(desiredLevel);
                 break;
             case ("scientists"):
-
+                this.jabs.setScientistsLevel(desiredLevel);
                 break;
             case ("warriors"):
-
+                this.jabs.setWarriorsLevel(desiredLevel);
                 break;
         }
     }
 
-    public boolean tryToOpenSecretKnowledge() {
-        return true;
+    public boolean tryToAttack(int enemyAmount, int enemyLevel) {
+        if(this.jabs.getJabsCount().get(Jabs.casts.get(3)) * this.jabs.getJabsLevels().get(Jabs.casts.get(3)) >= enemyAmount * enemyLevel) {
+            return true;
+        }
+        else {
+            this.jabs.setWarriorsCount(0);
+            this.jabs.setWarriorsLevel(0);
+            return false;
+        }
     }
 
-    public boolean tryToDevelopArtifact() {
-        return true;
+    public boolean tryToNegotiate(int enemyAmount, int enemyLevel) {
+        if(this.jabs.getJabsCount().get(Jabs.casts.get(2)) * this.jabs.getJabsLevels().get(Jabs.casts.get(2)) >= enemyAmount * enemyLevel) {
+            return true;
+        }
+        else {
+            this.jabs.setScientistsCount(0);
+            this.jabs.setScientistsLevel(0);
+            return false;
+        }
+    }
+
+    public boolean tryToOpenSecretKnowledge(Player player) {
+        float probability = (this.jabs.getJabsCount().get(Jabs.casts.get(2)) * this.jabs.getJabsLevels().get(Jabs.casts.get(2))) / ((this.kvaks - Jabs.minAdminsCount)*(Jabs.maxLevel - this.openSimplicytyFactor));
+        Random random = new Random();
+        if (random.nextFloat(1) <= probability) {
+            player.addOwnedSecretKnowledge(this.secretKnowledge);
+            this.secretKnowledge.setStatus(true);
+            this.secretKnowledge.setWasAcquired(true);
+            return true;
+        }
+        else {
+            this.jabs.setScientistsLevel(this.jabs.getJabsLevels().get(Jabs.casts.get(2)) - 1);
+            return false;
+        }
+    }
+
+    public boolean tryToDevelopArtifact(Player player) {
+        float probability = (this.jabs.getJabsCount().get(Jabs.casts.get(2)) * this.jabs.getJabsLevels().get(Jabs.casts.get(2))) / ((this.kvaks - Jabs.minAdminsCount)*(Jabs.maxLevel - this.openSimplicytyFactor));
+        Random random = new Random();
+        if (random.nextFloat() <= probability) {
+            player.addOwnedArtifact(this.artifact);
+            this.artifact.setStatus(true);
+            this.artifact.setWasAcquired(true);
+            return true;
+        }
+        else {
+            this.jabs.setScientistsLevel(this.jabs.getJabsLevels().get(Jabs.casts.get(2)) - 1);
+            return false;
+        }
+    }
+
+    public void applyArtifact(Player player) {
+        this.artifact.specialMethod(player);
+        this.artifact.levelUp(this.jabs);
+    }
+
+    public void toOwned(Player player) {
+        player.addOwnedRegion(this);
+        player.setCoinsAmount(player.getCoinsAmount() + this.treasury);
+        this.status = true;
+    }
+    public void toDefault(Player player) {
+        player.removeOwnedRegion(this);
+        if(this.artifact.getStatus()) {
+            player.removeOwnedArtifact(this.artifact);
+        }
+        if(this.secretKnowledge.getStatus()) {
+            player.removeOwnedSecretKnowledge(this.secretKnowledge);
+        }
+        this.status = false;
+        this.jabs.setAdminsCount(this.defaultValues.getFirst());
+        this.jabs.setCiviliansCount(this.defaultValues.get(1));
+        this.jabs.setScientistsCount(this.defaultValues.get(2));
+        this.jabs.setWarriorsCount(this.defaultValues.get(3));
+        this.jabs.setAdminsLevel(this.defaultValues.get(4));
+        this.jabs.setCiviliansLevel(this.defaultValues.get(5));
+        this.jabs.setScientistsLevel(this.defaultValues.get(6));
+        this.jabs.setWarriorsLevel(this.defaultValues.get(7));
     }
 }

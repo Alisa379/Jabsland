@@ -10,6 +10,7 @@ public class Jabs {
     private int scientistsCount;
     private int warriorsCount;
     public static final int maxLevel;
+    public static final int minAdminsCount;
     private int adminsLevel;
     private int civiliansLevel;
     private int scientistsLevel;
@@ -18,6 +19,7 @@ public class Jabs {
 
     static {
         maxLevel = 20;
+        minAdminsCount = 4;
     }
 
     static {

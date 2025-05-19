@@ -13,8 +13,8 @@ public class Artifact extends LocalLoot  {
         return action;
     }
 
-    public int specialMethod() {
-        return lootCoins;
+    public void specialMethod(Player player) {
+        player.setCoinsAmount(player.getCoinsAmount() + this.lootCoins);
     }
 
 };
