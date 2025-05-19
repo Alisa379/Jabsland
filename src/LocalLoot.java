@@ -1,6 +1,7 @@
-public abstract class LocalLoot implements levelUp {
+public abstract class LocalLoot {
     private final String name;
     private boolean status;
+    private boolean wasAcquired;
     private final String info;
     private final String levelUpCast;
     private final int levelBoost;
@@ -8,25 +9,39 @@ public abstract class LocalLoot implements levelUp {
     public LocalLoot(String name, String info, String levelUpCast, int levelBoost) {
         this.name = name;
         this.status = false;
+        this.wasAcquired = false;
         this.info = info;
         this.levelUpCast = levelUpCast;
         this.levelBoost = levelBoost;
     }
 
     public String getName() {
-        return this.name;
+        if (this.wasAcquired) {
+            return this.name;
+        }
+        else {
+            return "???";
+        }
     }
     public boolean getStatus() {
         return this.status;
     }
     public String getInfo() {
-        return this.info;
+        if(this.status) {
+            return this.info;
+        }
+        else {
+            return "???";
+        }
     }
     public void setStatus(boolean status) {
         this.status = status;
     }
 
-    @Override
+    public void setWasAcquired(boolean wasAcquired) {
+        this.wasAcquired = wasAcquired;
+    }
+
     public void levelUp(Jabs jabs) {
         switch(this.levelUpCast) {
             case("admins"):
