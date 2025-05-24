@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Jabs {
+public class Jabs implements Serializable  {
 
     private int adminsCount;
     private int civiliansCount;

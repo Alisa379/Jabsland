@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
     private int coinsAmount;
     private List<Region> ownedRegions = new ArrayList<>();
     private List<SecretKnowledge> ownedSecretKnoledges = new ArrayList<>();

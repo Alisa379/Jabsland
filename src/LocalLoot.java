@@ -1,4 +1,6 @@
-public abstract class LocalLoot {
+import java.io.Serializable;
+
+public abstract class LocalLoot implements Serializable {
     private final String name;
     private boolean status;
     private boolean wasAcquired;

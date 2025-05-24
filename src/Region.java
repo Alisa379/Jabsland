@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Region implements PlayActions {
+public class Region implements PlayActions, Serializable {
     private String name;
     private final String originalName;
     private boolean status;
@@ -61,6 +62,10 @@ public class Region implements PlayActions {
         return this.status;
     }
 
+    public Jabs getJabs() {
+        return this.jabs;
+    }
+
     public Artifact getArtifact() {
         return this.artifact;
     }
@@ -88,7 +93,7 @@ public class Region implements PlayActions {
             result += Game.regions.get(i).getName();
             if (Game.regions.get(i).getStatus()) {
                 if(i < Game.regions.size() - 1) {
-                    result += ": в собственности, ";
+                    result += ": в собственности, \n";
                 }
                 else {
                     result += ": в собственности.";
@@ -96,7 +101,7 @@ public class Region implements PlayActions {
             }
             else{
                 if(i < Game.regions.size() - 1) {
-                    result += ": не захвачен, ";
+                    result += ": не захвачен, \n";
                 }
                 else {
                     result += ": не захвачен.";
@@ -118,7 +123,7 @@ public class Region implements PlayActions {
                 "Секретное знание: " + this.secretKnowledge.getName() + "\n" +
                 this.secretKnowledge.getInfo() + "\n" +
                 this.getPopulationInfo() + "\n" +
-                "Близлежащие регионы: " + this.getAdjacentRegions() + "\n";
+                "Близлежащие регионы: \n" + this.getAdjacentRegions() + "\n";
     }
 
     public void changeName(String newName) {
@@ -194,8 +199,8 @@ public class Region implements PlayActions {
         }
     }
 
-    public boolean tryToAttack(int enemyAmount, int enemyLevel) {
-        if(this.jabs.getJabsCount().get(Jabs.casts.get(3)) * this.jabs.getJabsLevels().get(Jabs.casts.get(3)) >= enemyAmount * enemyLevel) {
+    public boolean tryToAttack(Region to, int warriorsToSend) {
+        if (warriorsToSend * this.jabs.getJabsLevels().get(Jabs.casts.get(3)) >= to.jabs.getJabsCount().get(Jabs.casts.get(3)) * to.jabs.getJabsLevels().get(Jabs.casts.get(3))) {
             return true;
         }
         else {
@@ -205,8 +210,8 @@ public class Region implements PlayActions {
         }
     }
 
-    public boolean tryToNegotiate(int enemyAmount, int enemyLevel) {
-        if(this.jabs.getJabsCount().get(Jabs.casts.get(2)) * this.jabs.getJabsLevels().get(Jabs.casts.get(2)) >= enemyAmount * enemyLevel) {
+    public boolean tryToNegotiate(Region to, int scientistsToSend) {
+        if (scientistsToSend * this.jabs.getJabsLevels().get(Jabs.casts.get(2)) >= to.jabs.getJabsCount().get(Jabs.casts.get(2)) * to.jabs.getJabsLevels().get(Jabs.casts.get(2))) {
             return true;
         }
         else {

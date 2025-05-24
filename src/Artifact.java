@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Artifact extends LocalLoot  {
+public class Artifact extends LocalLoot implements Serializable {
     private final String action;
     private final int lootCoins;
 
