@@ -189,6 +189,8 @@ public class Region implements PlayActions {
             case ("warriors"):
                 this.jabs.setWarriorsLevel(desiredLevel);
                 break;
+            default:
+                break;
         }
     }
 
@@ -219,6 +221,7 @@ public class Region implements PlayActions {
         Random random = new Random();
         if (random.nextFloat(1) <= probability) {
             player.addOwnedSecretKnowledge(this.secretKnowledge);
+            this.getSecretKnowledge().levelUp(jabs);
             this.secretKnowledge.setStatus(true);
             this.secretKnowledge.setWasAcquired(true);
             return true;
@@ -232,7 +235,7 @@ public class Region implements PlayActions {
     public boolean tryToDevelopArtifact(Player player) {
         float probability = (this.jabs.getJabsCount().get(Jabs.casts.get(2)) * this.jabs.getJabsLevels().get(Jabs.casts.get(2))) / ((this.kvaks - Jabs.minAdminsCount)*(Jabs.maxLevel - this.openSimplicytyFactor));
         Random random = new Random();
-        if (random.nextFloat() <= probability) {
+        if (random.nextFloat(1) <= probability) {
             player.addOwnedArtifact(this.artifact);
             this.artifact.setStatus(true);
             this.artifact.setWasAcquired(true);

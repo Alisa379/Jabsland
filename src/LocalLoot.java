@@ -76,6 +76,8 @@ public abstract class LocalLoot {
                     jabs.setWarriorsLevel(jabs.getJabsLevels().get(Jabs.casts.getFirst()));
                 }
                 break;
+            default:
+                break;
         }
     }
 };
