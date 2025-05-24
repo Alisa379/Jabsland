@@ -1,11 +1,105 @@
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.List;
 
-public class Main implements Serializable  {
+public class Main  {
 
     public static void main(String[] args) {
+
+        try {
+            FileInputStream f = new FileInputStream("data.bin");
+            ObjectInputStream o = new ObjectInputStream(f);
+
+            Object object = o.readObject();
+            Game game = new Game();
+            if (object instanceof Game) {
+                game = (Game) object;
+                System.out.println(game.getMonth());
+            }
+            else{
+                System.out.println("не зашли");
+            }
+
+            Player player = (Player) o.readObject();
+            Info info = (Info) o.readObject();
+
+            Region JB = (Region) o.readObject();
+            Region N1 = (Region) o.readObject();
+            Region W1 = (Region) o.readObject();
+            Region S1 = (Region) o.readObject();
+            Region E1 = (Region) o.readObject();
+            Region N2 = (Region) o.readObject();
+            Region W2 = (Region) o.readObject();
+            Region NW2 = (Region) o.readObject();
+            Region NE2 = (Region) o.readObject();
+            Region S2 = (Region) o.readObject();
+            Region E2 = (Region) o.readObject();
+            Region SW2 = (Region) o.readObject();
+            Region SE2 = (Region) o.readObject();
+            Region N3 = (Region) o.readObject();
+            Region W3 = (Region) o.readObject();
+            Region S3 = (Region) o.readObject();
+            Region E3 = (Region) o.readObject();
+            Region NW3 = (Region) o.readObject();
+            Region NE3 = (Region) o.readObject();
+            Region SW3 = (Region) o.readObject();
+            Region SE3 = (Region) o.readObject();
+
+            SecretKnowledge SecretJB = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretN1 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretW1 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretS1 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretE1 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretN2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretW2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretNW2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretNE2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretS2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretE2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretSW2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretSE2 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretN3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretW3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretS3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretE3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretNW3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretNE3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretSW3 = (SecretKnowledge) o.readObject();
+            SecretKnowledge SecretSE3 = (SecretKnowledge) o.readObject();
+
+            Artifact AJB = (Artifact) o.readObject();
+            Artifact AN1 = (Artifact) o.readObject();
+            Artifact AW1 = (Artifact) o.readObject();
+            Artifact AS1 = (Artifact) o.readObject();
+            Artifact AE1 = (Artifact) o.readObject();
+            Artifact AN2 = (Artifact) o.readObject();
+            Artifact AW2 = (Artifact) o.readObject();
+            Artifact ANW2 = (Artifact) o.readObject();
+            Artifact ANE2 = (Artifact) o.readObject();
+            Artifact AS2 = (Artifact) o.readObject();
+            Artifact AE2 = (Artifact) o.readObject();
+            Artifact ASW2 = (Artifact) o.readObject();
+            Artifact ASE2 = (Artifact) o.readObject();
+            Artifact AN3 = (Artifact) o.readObject();
+            Artifact AW3 = (Artifact) o.readObject();
+            Artifact AS3 = (Artifact) o.readObject();
+            Artifact AE3 = (Artifact) o.readObject();
+            Artifact ANW3 = (Artifact) o.readObject();
+            Artifact ANE3 = (Artifact) o.readObject();
+            Artifact ASW3 = (Artifact) o.readObject();
+            Artifact ASE3 = (Artifact) o.readObject();
+
+            o.close();
+
+            UX ux = new UX(game, player, info);
+            ux.run();
+
+            System.exit(120);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         SecretKnowledge SecretJB = new SecretKnowledge(
                 "Путеводитель",
                 "Старый путеводитель лежал на столе заброшенного дворца. Открыв его, ты видишь детальную карту острова Jabsland: 20 регионов и в центре Jabsburg. Но не это привлекает твоё внимание. Страница порвана, но на месте разрыва там, где не должно быть ничего кроме океана, виднеются обрывки очертания острова. Жаль, авторы не указали его координат…",
@@ -533,6 +627,9 @@ public class Main implements Serializable  {
         Game.getRegions().getFirst().toOwned(player);
 
         ux.run();
+
+
+
         try {
             FileOutputStream f = new FileOutputStream("data.bin");
             ObjectOutputStream o = new ObjectOutputStream(f);
@@ -541,75 +638,25 @@ public class Main implements Serializable  {
             o.writeObject(player);
             o.writeObject(info);
 
-            o.writeObject(JB);
-            o.writeObject(N1);
-            o.writeObject(W1);
-            o.writeObject(S1);
-            o.writeObject(E1);
-            o.writeObject(N2);
-            o.writeObject(W2);
-            o.writeObject(NW2);
-            o.writeObject(NE2);
-            o.writeObject(S2);
-            o.writeObject(E2);
-            o.writeObject(SW2);
-            o.writeObject(SE2);
-            o.writeObject(N3);
-            o.writeObject(W3);
-            o.writeObject(S3);
-            o.writeObject(E3);
-            o.writeObject(NW3);
-            o.writeObject(NE3);
-            o.writeObject(SW3);
-            o.writeObject(SE3);
+            for (Region r: Game.getRegions()) {
+                o.writeObject(r);
+            }
 
-            o.writeObject(SecretJB);
-            o.writeObject(SecretN1);
-            o.writeObject(SecretW1);
-            o.writeObject(SecretS1);
-            o.writeObject(SecretE1);
-            o.writeObject(SecretN2);
-            o.writeObject(SecretW2);
-            o.writeObject(SecretNW2);
-            o.writeObject(SecretNE2);
-            o.writeObject(SecretS2);
-            o.writeObject(SecretE2);
-            o.writeObject(SecretSW2);
-            o.writeObject(SecretSE2);
-            o.writeObject(SecretN3);
-            o.writeObject(SecretW3);
-            o.writeObject(SecretS3);
-            o.writeObject(SecretE3);
-            o.writeObject(SecretNW3);
-            o.writeObject(SecretNE3);
-            o.writeObject(SecretSW3);
-            o.writeObject(SecretSE3);
+            for (SecretKnowledge s: Game.getSecretKnowledges()) {
+                o.writeObject(s);
+            }
 
-            o.writeObject(AJB);
-            o.writeObject(AN1);
-            o.writeObject(AW1);
-            o.writeObject(AS1);
-            o.writeObject(AE1);
-            o.writeObject(AN2);
-            o.writeObject(AW2);
-            o.writeObject(ANW2);
-            o.writeObject(ANE2);
-            o.writeObject(AS2);
-            o.writeObject(AE2);
-            o.writeObject(ASW2);
-            o.writeObject(ASE2);
-            o.writeObject(AN3);
-            o.writeObject(AW3);
-            o.writeObject(AS3);
-            o.writeObject(AE3);
-            o.writeObject(ANW3);
-            o.writeObject(ANE3);
-            o.writeObject(ASW3);
-            o.writeObject(ASE3);
+            for (Artifact a: Game.getArtifacts()) {
+                o.writeObject(a);
+            }
+
             o.close();}
 
         catch(Exception e) {
             e.printStackTrace();
         }
+
+
+
     }
 }
